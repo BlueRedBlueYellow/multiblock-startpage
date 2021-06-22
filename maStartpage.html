@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="maStartpage.css">
+</head>
+<body>
+
+<a  target="_blank" rel="noopener noreferrer" id="imagelink" href="">
+    <div id="random-photo"></div>
+</a>
+
+<div id="grid-container">
+    <div class="grid-square">
+        <span>COMMON</span>
+        <ul class="grid-stuff">
+            <h4>SOCIAL MEDIA</h4>
+            <li><a href="https://old.reddit.com">Reddit</a></li>
+            <li><a href="https://twitter.com/home">Twitter</a></li>
+            <li><a href="https://www.youtube.com">Youtube</a></li>
+        </ul>
+    </div>
+    <div class="grid-square">
+        <span>CONTINUE <br> PROGRESS <br></span>
+        <ul class="grid-stuff">
+            <li><a>Nothing :/</a></li>
+        </ul>
+    </div>
+    <div class="grid-square">
+        <span>EDUCATIONAL</span>
+        <ul class="grid-stuff">
+            <li><a href="https://en.wikipedia.org/wiki/Main_Page">Wikipedia</a></li>
+        </ul>
+    </div>
+    <div class="grid-square">
+        <span>RESOURCES</span>
+        <ul class="grid-stuff">
+            <li><a href="https://docs.google.com/spreadsheets/u/0/">Google Sheets</a></li>
+        </ul>
+    </div>
+    <div class="grid-square">
+        <span>WEATHER</span>
+        <ul class="grid-stuff">
+            <li><a href="https://www.nhc.noaa.gov/">NHC</a></li>
+        </ul>
+    </div>
+    <div class="grid-square">
+        <span>MISC</span>
+        <ul class="grid-stuff">
+            <li><a href="https://tetr.io/">Tetr.IO</a></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+<script>
+
+function getRandomInt(max) {
+	return Math.floor(Math.random() * max) + 1;
+}
+
+const gridSquares = document.getElementsByClassName("grid-square");
+subs = ['EarthPorn', 'CityPorn'] 
+sub = subs[getRandomInt(subs.length) - 1]
+
+var request = new XMLHttpRequest();
+request.open('GET', `https://www.reddit.com/r/${sub}/hot.json`, true);
+request.onload = function() {
+  if (this.status >= 200 && this.status < 400) {
+    // Success!
+    const posts = JSON.parse(this.response);
+    var image;
+    var postURL;
+    for (let i = 0; i < posts.data.children.length; i++) {
+        url = posts.data.children[i].data.url
+        if (url.endsWith(".jpg") || url.endsWith(".png")) {
+            image = url;
+            postURL = `https://www.reddit.com${posts.data.children[i].data.permalink}`
+            console.log(url);
+            break;
+        }
+    }
+
+    document.getElementById("random-photo").style.backgroundImage = `url(${image})`
+    document.getElementById("imagelink").href = postURL
+
+  } else {
+    // We reached our target server, but it returned an error
+    console.log("Error");
+}
+};
+request.onerror = function() {
+  // There was a connection error of some sort
+};
+request.send();
+
+
+
+for (let i = 0; i < gridSquares.length; i++) {
+    let gridStuff = gridSquares[i].querySelector(".grid-stuff");
+    let gridSpan = gridSquares[i].querySelector("span");
+    if (gridStuff.getElementsByTagName("LI").length + gridStuff.getElementsByTagName("H4").length >= 8) {
+        gridStuff.style.top = "-3.0vmin";
+    }
+
+    gridSquares[i].addEventListener("mouseenter", function() {
+        gridStuff.style.display = "unset";
+        gridSpan.style.display = "none";
+        setTimeout(function(){
+            gridStuff.classList.toggle("fade", true);
+        }, 75)
+    })
+
+    gridSquares[i].addEventListener("mouseleave", function() {
+        gridStuff.classList.toggle("fade", false);
+        setTimeout(function(){
+            gridStuff.style.display = "none";
+            gridSpan.style.display = "unset";
+        }, 75)
+    })
+};
+
+  
+
+</script>
+</html>

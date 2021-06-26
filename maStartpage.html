@@ -84,12 +84,10 @@ request.onload = function() {
     document.getElementById("imagelink").href = postURL
 
   } else {
-    // We reached our target server, but it returned an error
     console.log("Error");
 }
 };
 request.onerror = function() {
-  // There was a connection error of some sort
 };
 request.send();
 

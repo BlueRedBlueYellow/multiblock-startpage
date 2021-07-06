@@ -1,5 +1,7 @@
 # multiblock-startpage
 A clean startpage, with links separated by blocks.
-It currently only supports six boxes - you may change the names of each category or add new links in "maStartpage.html".
-
+## mastartpage.html
+New links and categories, plus block names, are within the "grid-container" DIV.
+Subreddits to retrieve images from are in the "subs" array.
+# Preview
 ![Preview image](preview.png)

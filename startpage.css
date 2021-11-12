@@ -6,7 +6,6 @@
         url('Futura-Bold.woff') format('woff');
 }
 
-
 #random-photo {
     background-size: cover;
     position: absolute;
@@ -88,7 +87,6 @@ h4 {
     color: gray;
 }
 
-
 a {
     color: inherit;
     text-decoration: none;
@@ -101,4 +99,3 @@ a:hover {
 body {
     background-color: black;
 }
-
